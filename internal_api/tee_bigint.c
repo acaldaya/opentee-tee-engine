@@ -189,25 +189,34 @@ TEE_Result TEE_BigIntConvertFromOctetString(TEE_BigInt *dest, uint8_t *buffer,
 	return ret;
 }
 
+// TODO: refine this
+#define DEFAULT_BUFFER_LEN 256
+
 TEE_Result TEE_BigIntConvertToOctetString(void *buffer,
-					  size_t bufferLen,
+					  size_t *bufferLen,
 					  TEE_BigInt *bigInt)
 {
 	mbedtls_mpi num;
 	TEE_Result ret = TEE_SUCCESS;
 
 	/* Check parameters */
-	if (buffer == NULL || bigInt == NULL) {
+	if (bigInt == NULL) {
 		OT_LOG(LOG_ERR, "Bad parameters");
 		TEE_Panic(TEE_ERROR_BAD_PARAMETERS);
+	}
+
+	if (buffer == NULL) {
+		*bufferLen = DEFAULT_BUFFER_LEN;
+		return TEE_ERROR_SHORT_BUFFER;
 	}
 
 	mbedtls_mpi_init(&num);
 
 	BigIntToMPI(&num, bigInt);
 
-	if (mbedtls_mpi_write_binary(&num, (unsigned char *)buffer, bufferLen)) {
+	if (mbedtls_mpi_write_binary(&num, (unsigned char *)buffer, *bufferLen)) {
 		OT_LOG(LOG_ERR, "Insufficent buffer size");
+		*bufferLen = DEFAULT_BUFFER_LEN;
 		ret = TEE_ERROR_SHORT_BUFFER;
 	}
 

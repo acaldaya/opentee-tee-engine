@@ -85,7 +85,7 @@ TEE_Result TEE_BigIntConvertFromOctetString(TEE_BigInt *dest, uint8_t *buffer,
  *         TEE_ERROR_SHORT_BUFFER is buffer is too short
  */
 TEE_Result TEE_BigIntConvertToOctetString(void *buffer,
-					  size_t bufferLen,
+					  size_t *bufferLen,
 					  TEE_BigInt *bigInt);
 
 /***
