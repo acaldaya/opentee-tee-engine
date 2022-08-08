@@ -262,8 +262,12 @@ TEE_Result TEE_BigIntConvertToS32(int32_t *dest, TEE_BigInt *src)
 
 	BigIntToMPI(&num, src);
 
-	/* TODO : Implement this to extract the correct 4 bytes from num.P !!!! */
-	*dest = 0;
+	if (mbedtls_mpi_cmp_int(&num, (int32_t)0x80000000) < 0)
+		return TEE_ERROR_OVERFLOW;
+	if (mbedtls_mpi_cmp_int(&num, (int32_t)0x7FFFFFFF) > 0)
+		return TEE_ERROR_OVERFLOW;
+
+	*dest = num.private_s * num.private_p[0];
 
 	mbedtls_mpi_free(&num);
 
