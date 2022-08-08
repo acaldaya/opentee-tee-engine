@@ -33,7 +33,7 @@ void TEE_Panic(TEE_Result panicCode)
 
 	printf("P A N I C !\n");
 
-	OT_LOG_ERR("TEE_Panic: TA panicked with [%u] panicode\n", panicCode);
+	OT_LOG_ERR("TEE_Panic: TA panicked with [%X] panicode\n", panicCode);
 	OT_LOG_ERR("TEE_Panic: Stacktrace START\n");
 
 	for (i = 0; i < frames; ++i) {

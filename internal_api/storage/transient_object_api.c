@@ -740,7 +740,7 @@ TEE_Result TEE_AllocateTransientObject(uint32_t objectType,
 
 	if (valid_object_type_and_max_size(objectType, maxObjectSize)) {
 		OT_LOG_ERR("TEE_AllocateTransientObject not supported objectType"
-			   " [%u] OR/AND objectMaxSize [%u]", objectType, maxObjectSize);
+			   " [%X] OR/AND objectMaxSize [%u]", objectType, maxObjectSize);
 		return TEE_ERROR_NOT_SUPPORTED;
 	}
 

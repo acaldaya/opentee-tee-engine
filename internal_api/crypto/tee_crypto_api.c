@@ -129,19 +129,19 @@ TEE_Result TEE_AllocateOperation(TEE_OperationHandle *operation,
 	}
 
 	if (!supported_algorithms(algorithm, maxKeySize, &key_count)) {
-		OT_LOG_ERR("TEE_AllocateOperation algorithm [%u] AND/OR "
+		OT_LOG_ERR("TEE_AllocateOperation algorithm [%X] AND/OR "
 			   "maxKeySize [%u] not supported", algorithm, maxKeySize);
 		return TEE_ERROR_NOT_SUPPORTED;
 	}
 	
 	if (valid_mode_and_algorithm(algorithm, mode)) {
-		OT_LOG_ERR("TEE_AllocateOperation algorithm [%u] and "
+		OT_LOG_ERR("TEE_AllocateOperation algorithm [%X] and "
 			   "mode [%u] combination is not valid", algorithm, mode);
 		return TEE_ERROR_NOT_SUPPORTED;
 	}
 
 	if (!valid_key_size_for_algorithm(algorithm, maxKeySize)) {
-		OT_LOG_ERR("TEE_AllocateOperation algorithm [%u] and "
+		OT_LOG_ERR("TEE_AllocateOperation algorithm [%X] and "
 			   "maxKeySize [%u] combination is not valid", algorithm, maxKeySize);
 		return TEE_ERROR_NOT_SUPPORTED;
 	}
