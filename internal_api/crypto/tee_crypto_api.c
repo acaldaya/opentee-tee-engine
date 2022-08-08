@@ -452,7 +452,7 @@ TEE_Result TEE_SetOperationKey2(TEE_OperationHandle operation,
 	operation = operation;
 	key1 = key1;
 	key2 = key2;
-	
+
 	return TEE_ERROR_NOT_IMPLEMENTED;
 }
 
@@ -462,4 +462,47 @@ void TEE_CopyOperation(TEE_OperationHandle dstOperation, TEE_OperationHandle src
 	srcOperation = srcOperation;
 
 	TEE_Panic(TEE_ERROR_NOT_IMPLEMENTED);
+}
+
+TEE_Result TEE_IsAlgorithmSupported(uint32_t algId, uint32_t element)
+{
+	uint32_t maxKeySize = 0;
+	uint32_t key_count;
+
+	/* TODO: this list could be incomplete */
+	switch (element) {
+		case TEE_CRYPTO_ELEMENT_NONE:
+			break;
+		case TEE_ECC_CURVE_NIST_P192:
+			maxKeySize = 192;
+			break;
+		case TEE_ECC_CURVE_NIST_P224:
+			maxKeySize = 224;
+			break;
+		case TEE_ECC_CURVE_NIST_P256:
+			maxKeySize = 256;
+			break;
+		case TEE_ECC_CURVE_NIST_P384:
+			maxKeySize = 384;
+			break;
+		case TEE_ECC_CURVE_NIST_P521:
+			maxKeySize = 521;
+			break;
+		default:
+			return TEE_ERROR_NOT_SUPPORTED;
+	}
+
+	if (!supported_algorithms(algId, 0, &key_count)) {
+		OT_LOG_ERR("TEE_IsAlgorithmSupported algorithm [%X] AND/OR "
+			   "maxKeySize [%u] not supported", algId, maxKeySize);
+		return TEE_ERROR_NOT_SUPPORTED;
+	}
+
+	if ((element != TEE_CRYPTO_ELEMENT_NONE) && (!valid_key_size_for_algorithm(algId, maxKeySize))) {
+		OT_LOG_ERR("TEE_IsAlgorithmSupported algorithm [%X] and "
+			   "maxKeySize [%u] combination is not valid", algId, maxKeySize);
+		return TEE_ERROR_NOT_SUPPORTED;
+	}
+
+	return TEE_SUCCESS;
 }

@@ -414,6 +414,19 @@ void TEE_DeriveKey(TEE_OperationHandle operation, TEE_Attribute *params, uint32_
 void TEE_GenerateRandom(void *randomBuffer, size_t randomBufferLen);
 
 /*
+ * ## Algorithm Support Query Function ##
+ */
+
+/*!
+ * \brief TEE_IsAlgorithmSupported
+ * \param algId
+ * \param element
+ */
+TEE_Result TEE_IsAlgorithmSupported(uint32_t algId, uint32_t element);
+
+#define TEE_CRYPTO_ELEMENT_NONE             0x00000000
+
+/*
  * ## Cryptographic Algorithms Specification ##
  */
 

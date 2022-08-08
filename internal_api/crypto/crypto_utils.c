@@ -560,7 +560,7 @@ bool valid_key_size_for_algorithm(uint32_t algorithm, uint32_t key)
 		return false;
 
 	case TEE_ALG_ECDH_DERIVE_SHARED_SECRET:
-		if (key >= 8 && key <= 4096 && !(key % 8))
+		if (key >= 8 && key <= 521 && (!(key % 8) || key == 521))
 			return true;
 		return false;
 	default:
