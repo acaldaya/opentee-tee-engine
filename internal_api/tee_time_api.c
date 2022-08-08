@@ -85,6 +85,14 @@ TEE_Result TEE_GetTAPersistentTime(TEE_Time *time)
 	/* calculate the "current" persistent time */
 	timeradd(&persistent_time, &diff_time, &tv);
 
+	/* overflow detection */
+	if (mark_time.tv_sec <= UINT32_MAX && tv.tv_sec > UINT32_MAX)
+	{
+		time->seconds = tv.tv_sec % 1<<32;
+		time->millis = tv.tv_usec * 1000;
+		return TEE_ERROR_OVERFLOW;
+	}
+
 	time->seconds = tv.tv_sec;
 	time->millis = tv.tv_usec * 1000;
 
