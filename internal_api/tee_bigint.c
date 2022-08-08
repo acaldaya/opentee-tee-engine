@@ -331,6 +331,8 @@ void TEE_BigIntShiftRight(TEE_BigInt *dest, TEE_BigInt *op, size_t bits)
 	mbedtls_mpi_init(&out);
 	mbedtls_mpi_init(&in);
 
+	BigIntToMPI(&in, op);
+
 	if (mbedtls_mpi_copy(&out, &in)) {
 		OT_LOG(LOG_ERR, "Failed to copy, out of memory");
 		TEE_Panic(TEE_ERROR_OUT_OF_MEMORY);
