@@ -568,6 +568,7 @@ bool valid_key_size_for_algorithm(uint32_t algorithm, uint32_t key)
 	}
 }
 
+// TODO: Contrary to similar functions "return 0" means valid.
 int valid_mode_and_algorithm(uint32_t algorithm, uint32_t mode)
 {
 	/* TEE Core API: Table 6-4: TEE_AllocateOperation Allowed Modes
@@ -576,7 +577,7 @@ int valid_mode_and_algorithm(uint32_t algorithm, uint32_t mode)
 	switch (mode) {
 	case TEE_MODE_ENCRYPT:
 		switch (algorithm) {
-		case TEE_ALG_AES_ECB_NOPAD:
+		case TEE_ALG_AES_ECB_NOPAD: // BUG?: some of these are not valid in: valid_key_size_for_algorithm()
 		case TEE_ALG_AES_CBC_NOPAD:
 		case TEE_ALG_AES_CTR:
 		case TEE_ALG_AES_CTS:
