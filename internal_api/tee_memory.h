@@ -23,7 +23,7 @@ TEE_Result TEE_CheckMemoryAccessRights(uint32_t accessFlags, void *buffer, size_
 
 void TEE_SetInstanceData(void *instanceData);
 
-void *TEE_GetInstanceData();
+void *TEE_GetInstanceData(void);
 
 void *TEE_Malloc(size_t size, uint32_t hint);
 
